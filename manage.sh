@@ -1,11 +1,11 @@
 #! /bin/bash
 
-source ./settings.sh
+source ./config/settings.sh
 
 ########################## Main Functions  #############################
 
 function create_dump {
-  logs_createDump="./logs_createDump"
+  logs_createDump="./logs/logs_createDump"
   exec > >(tee -a $logs_createDump) 2>&1
 
   if [ -z ${SCHEMA} ]; then
@@ -16,7 +16,7 @@ function create_dump {
 }
 
 function load_dump {
-  logs_loadDump="./logs_loadDump"
+  logs_loadDump="./logs/logs_loadDump"
   exec > >(tee -a $logs_loadDump) 2>&1
 
   if [ -z ${SCHEMA} ]; then
@@ -27,15 +27,15 @@ function load_dump {
 }
 
 function open_setting {
-  nano settings.sh
+  nano ./config/settings.sh
 }
 
 function open_logfile_createDump {
-  nano logs_createDump
+  nano ./logs/logs_createDump
 }
 
 function open_logfile_loadDump {
-  nano logs_loadDump
+  nano ./logs/logs_loadDump
 }
 
 function exit_menu {
@@ -43,10 +43,10 @@ function exit_menu {
 }
 
 function generate_pass {
-    grep -e "DB_USER_PASS" ./settings.sh
+    grep -e "DB_USER_PASS" ./config/settings.sh
     passwd="$(openssl rand -hex 24)"
-    sed -i "s/DB_USER_PASS=.*/DB_USER_PASS="\'$passwd\'"/" ./settings.sh
-    grep -e "DB_USER_PASS" ./settings.sh
+    sed -i "s/DB_USER_PASS=.*/DB_USER_PASS="\'$passwd\'"/" ./config/settings.sh
+    grep -e "DB_USER_PASS" ./config/settings.sh
 }
 
 ########################## Functions for Menu #############################
