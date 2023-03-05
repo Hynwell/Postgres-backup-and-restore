@@ -1,10 +1,10 @@
 #! /bin/bash
 
-source ./settings.sh
+# source ./settings.sh
 
 function base_create_dump {
 
-    logs_createDump="../logs/logs_createDump"
+    logs_createDump="./logs/logs_createDump"
     exec > >(tee -a $logs_createDump) 2>&1
 
     if [ -z ${SCHEMA} ]; then
@@ -26,9 +26,9 @@ function create_dump {
         read -p "Хотите ли поменять название папки бэкапа?(y/n?): " xo
         if [ "$xo" == "y" ]; then
             read -p "Укажите новое название папки: " NEW_NAME_BACKUP_DIR
-            sed -i "s/NAME_BACKUP_DIR=.*/NAME_BACKUP_DIR="\'$NEW_NAME_BACKUP_DIR\'"/" ./settings.sh
+            sed -i "s/NAME_BACKUP_DIR=.*/NAME_BACKUP_DIR="\'$NEW_NAME_BACKUP_DIR\'"/" ./config/settings.sh
             echo "Новый путь бэкапа: $PATH_BACKUP_DIR$NEW_NAME_BACKUP_DIR"
-            source ./settings.sh
+            source ./config/settings.sh
             base_create_dump
             echo "Бэкап готов: $FULL_PATH_BACKUP_DIR"
             
