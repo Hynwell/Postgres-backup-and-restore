@@ -1,7 +1,9 @@
 #! /bin/bash
 
 # Путь к файлу дампа
-BACKUP_DIR='/tmp/backup'
+PATH_BACKUP_DIR='/tmp/'
+NAME_BACKUP_DIR='backup'
+FULL_PATH_BACKUP_DIR=${PATH_BACKUP_DIR}${NAME_BACKUP_DIR}
 
 # Пути к утилитам снятия/восстановления дампа
 PG_RESTORE=$(which pg_restore)

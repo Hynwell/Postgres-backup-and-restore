@@ -1,30 +1,10 @@
 #! /bin/bash
 
 source ./config/settings.sh
+source ./config/createDump.sh
+source ./config/loadDump.sh
 
 ########################## Main Functions  #############################
-
-function create_dump {
-  logs_createDump="./logs/logs_createDump"
-  exec > >(tee -a $logs_createDump) 2>&1
-
-  if [ -z ${SCHEMA} ]; then
-    PGPASSWORD=${DB_USER_PASS} $PG_DUMP --format=d --dbname=${DB_NAME} --host=${DB_HOSTNAME} --port=${DB_PORT} --username=${DB_USER} --jobs=${N_JOBS} --file=${BACKUP_DIR} 
-  else
-    PGPASSWORD=${DB_USER_PASS} $PG_DUMP --format=d --dbname=${DB_NAME} --host=${DB_HOSTNAME} --port=${DB_PORT} --username=${DB_USER} --jobs=${N_JOBS} --schema=${SCHEMA} --file=${BACKUP_DIR} 
-  fi
-}
-
-function load_dump {
-  logs_loadDump="./logs/logs_loadDump"
-  exec > >(tee -a $logs_loadDump) 2>&1
-
-  if [ -z ${SCHEMA} ]; then
-    PGPASSWORD=${DB_USER_PASS} ${PG_RESTORE} --dbname=${DB_NAME} --host=${DB_HOSTNAME} --port=${DB_PORT} --username=${DB_USER} --verbose -F d --jobs=${N_JOBS} ${BACKUP_DIR}
-  else
-    PGPASSWORD=${DB_USER_PASS} ${PG_RESTORE} --dbname=${DB_NAME} --host=${DB_HOSTNAME} --port=${DB_PORT} --username=${DB_USER} --verbose -F d --schema=${SCHEMA} --jobs=${N_JOBS} ${BACKUP_DIR} 
-  fi
-}
 
 function open_setting {
   nano ./config/settings.sh
